@@ -1,5 +1,5 @@
 [project]
-name = "ollama-deep-researcher"
+name = "woo-deep-researcher"
 version = "0.0.1"
 description = "Lightweight web research and summarization assistant."
 authors = [
@@ -13,20 +13,26 @@ dependencies = [
     "langchain-community>=0.3.9",
     "tavily-python>=0.5.0",
     "langchain-ollama>=0.2.1",
+    "fastapi>=0.115.7",
+    "uvicorn>=0.23.0",
+    "pydantic>=2.7.4,<3.0.0"
 ]
 
 [project.optional-dependencies]
-dev = ["mypy>=1.11.1", "ruff>=0.6.1"]
+dev = [
+    "mypy>=1.11.1",
+    "ruff>=0.6.1"
+]
 
 [build-system]
 requires = ["setuptools>=73.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["assistant"]
-
-[tool.setuptools.package-dir]
-"assistant" = "src/assistant"
+packages = [
+  "app",
+  "agents"
+]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]
@@ -39,14 +45,14 @@ lint.select = [
     "D",    # pydocstyle
     "D401", # First line should be in imperative mood
     "T201",
-    "UP",
+    "UP"
 ]
 lint.ignore = [
     "UP006",
     "UP007",
     "UP035",
     "D417",
-    "E501",
+    "E501"
 ]
 
 [tool.ruff.lint.per-file-ignores]

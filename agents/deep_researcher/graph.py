@@ -7,10 +7,10 @@ from langchain_core.runnables import RunnableConfig
 from langchain_ollama import ChatOllama
 from langgraph.graph import START, END, StateGraph
 
-from assistant.configuration import Configuration
-from assistant.utils import deduplicate_and_format_sources, tavily_search, format_sources
-from assistant.state import SummaryState, SummaryStateInput, SummaryStateOutput
-from assistant.prompts import query_writer_instructions, summarizer_instructions, reflection_instructions
+from agents.deep_researcher.configuration import Configuration
+from agents.deep_researcher.utils import deduplicate_and_format_sources, tavily_search, format_sources
+from agents.deep_researcher.state import SummaryState, SummaryStateInput, SummaryStateOutput
+from agents.deep_researcher.prompts import query_writer_instructions, summarizer_instructions, reflection_instructions
 
 # Nodes   
 def generate_query(state: SummaryState, config: RunnableConfig):
