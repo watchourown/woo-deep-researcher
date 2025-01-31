@@ -15,7 +15,10 @@ dependencies = [
     "langchain-ollama>=0.2.1",
     "fastapi>=0.115.7",
     "uvicorn>=0.23.0",
-    "pydantic>=2.7.4,<3.0.0"
+    "pydantic>=2.7.4,<3.0.0",
+    "pymilvus>=2.5.4",
+    "pymongo>=4.11.0",
+    "pytest>=8.3.4"
 ]
 
 [project.optional-dependencies]

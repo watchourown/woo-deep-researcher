@@ -5,6 +5,8 @@ from fastapi import FastAPI
 
 from app.core.config import Settings
 from app.router import health
+from app.router import deep_researcher
+from app.router import feedback_routes
 
 # Instantiate our Pydantic Settings (reads from environment)
 settings = Settings()
@@ -26,7 +28,8 @@ def create_app() -> FastAPI:
 
     # Include routers
     app.include_router(health.router, prefix="/api")
-
+    app.include_router(deep_researcher.router, prefix="/api", tags=["deep-research"])
+    app.include_router(feedback_routes.router, prefix="/api", tags=["feedback"])
     return app
 
 app = create_app()

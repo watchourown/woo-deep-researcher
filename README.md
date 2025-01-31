@@ -79,3 +79,12 @@ The final summary is saved to the graph state as well:
 There are [various ways](https://langchain-ai.github.io/langgraph/concepts/#deployment-options) to deploy this graph.
 
 See [Module 6](https://github.com/langchain-ai/langchain-academy/tree/main/module-6) of LangChain Academy for a detailed walkthrough of deployment options with LangGraph.
+
+
+## Configuration Options 
+
+A good rule of thumb is:
+	1.	FastAPI-Wide Settings (things like APP_TITLE, APP_VERSION, server ports, general environment variables) go in something like app/core/config.py.
+	2.	Graph-Specific Settings (like LLM model name, max web research loops, or special parameters unique to that workflow) go in agents/<graph_name>/configuration.py.
+
+That way, each graph/agent can have domain-specific configuration (e.g., how many times to loop in a research cycle, which embedding model to use), while your FastAPI application retains global settings relevant to the entire API (e.g., server host, debug mode, logging level, DB URLs if everything in the app shares those).

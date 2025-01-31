@@ -126,6 +126,7 @@ agent-venv/
 .env
 .venv
 .env
+.env.test
 env/
 venv/
 ENV/

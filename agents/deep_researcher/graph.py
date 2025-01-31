@@ -15,13 +15,15 @@ from agents.deep_researcher.prompts import query_writer_instructions, summarizer
 # Nodes   
 def generate_query(state: SummaryState, config: RunnableConfig):
     """ Generate a query for web search """
-    
+    print("generating query")
     # Format the prompt
     query_writer_instructions_formatted = query_writer_instructions.format(research_topic=state.research_topic)
 
     # Generate a query
     configurable = Configuration.from_runnable_config(config)
-    llm_json_mode = ChatOllama(model=configurable.local_llm, temperature=0, format="json")
+    print(configurable.local_llm)
+
+    llm_json_mode = ChatOllama(model=configurable.local_llm, base_url=configurable.ollama_base_url, temperature=0, format="json")
     result = llm_json_mode.invoke(
         [SystemMessage(content=query_writer_instructions_formatted),
         HumanMessage(content=f"Generate a query for web search:")]
@@ -32,7 +34,7 @@ def generate_query(state: SummaryState, config: RunnableConfig):
 
 def web_research(state: SummaryState):
     """ Gather information from the web """
-    
+    print("web researching")
     # Search the web
     search_results = tavily_search(state.search_query, include_raw_content=True, max_results=1)
     
@@ -42,7 +44,7 @@ def web_research(state: SummaryState):
 
 def summarize_sources(state: SummaryState, config: RunnableConfig):
     """ Summarize the gathered sources """
-    
+    print("summarizing sources")
     # Existing summary
     existing_summary = state.running_summary
 
@@ -64,7 +66,7 @@ def summarize_sources(state: SummaryState, config: RunnableConfig):
 
     # Run the LLM
     configurable = Configuration.from_runnable_config(config)
-    llm = ChatOllama(model=configurable.local_llm, temperature=0)
+    llm = ChatOllama(model=configurable.local_llm, base_url=configurable.ollama_base_url, temperature=0)
     result = llm.invoke(
         [SystemMessage(content=summarizer_instructions),
         HumanMessage(content=human_message_content)]
@@ -83,10 +85,10 @@ def summarize_sources(state: SummaryState, config: RunnableConfig):
 
 def reflect_on_summary(state: SummaryState, config: RunnableConfig):
     """ Reflect on the summary and generate a follow-up query """
-
+    print("reflecting on summary")
     # Generate a query
     configurable = Configuration.from_runnable_config(config)
-    llm_json_mode = ChatOllama(model=configurable.local_llm, temperature=0, format="json")
+    llm_json_mode = ChatOllama(model=configurable.local_llm, base_url=configurable.ollama_base_url, temperature=0, format="json")
     result = llm_json_mode.invoke(
         [SystemMessage(content=reflection_instructions.format(research_topic=state.research_topic)),
         HumanMessage(content=f"Identify a knowledge gap and generate a follow-up web search query based on our existing knowledge: {state.running_summary}")]
@@ -98,7 +100,7 @@ def reflect_on_summary(state: SummaryState, config: RunnableConfig):
 
 def finalize_summary(state: SummaryState):
     """ Finalize the summary """
-    
+    print("finalizing summary")
     # Format all accumulated sources into a single bulleted list
     all_sources = "\n".join(source for source in state.sources_gathered)
     state.running_summary = f"## Summary\n\n{state.running_summary}\n\n ### Sources:\n{all_sources}"
@@ -106,7 +108,7 @@ def finalize_summary(state: SummaryState):
 
 def route_research(state: SummaryState, config: RunnableConfig) -> Literal["finalize_summary", "web_research"]:
     """ Route the research based on the follow-up query """
-
+    print("routing research")
     configurable = Configuration.from_runnable_config(config)
     if state.research_loop_count <= configurable.max_web_research_loops:
         return "web_research"
