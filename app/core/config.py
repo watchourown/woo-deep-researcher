@@ -3,6 +3,7 @@
 from pydantic_settings import BaseSettings
 from pydantic import ConfigDict
 from functools import lru_cache
+import os
 
 class Settings(BaseSettings):
     ENV_NAME: str = "local"
@@ -20,6 +21,9 @@ class Settings(BaseSettings):
     # Additional API keys / secrets
     TAVILY_API_KEY: str
     OLLAMA_HOST: str
+
+    # Log directory for file-based logging
+    LOG_DIR: str = os.getenv("LOG_DIR", "logs")
 
     # Updated for Pydantic v2: Use model_config instead of Config
     model_config = ConfigDict(

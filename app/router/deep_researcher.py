@@ -1,12 +1,4 @@
 # app/routers/deep_researcher.py
-
-from fastapi import APIRouter
-from agents.deep_researcher.state import SummaryStateInput
-from agents.deep_researcher.configuration import Configuration
-from agents.deep_researcher.graph import graph  # Assuming you moved the graph-building code there
-
-router = APIRouter()
-
 from fastapi import APIRouter
 from agents.deep_researcher.state import SummaryStateInput
 from agents.deep_researcher.configuration import Configuration
