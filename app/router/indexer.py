@@ -30,7 +30,10 @@ async def query(payload: QueryPayload):
     logger.info("Received query request")
     try:
         # result = query_workflow(payload.query)
+        # throw an error as a test
+        raise Exception("Test error")
         logger.info("Query workflow completed")
+
         return {"status": "success", "result": "result"}
     except Exception as e:
         logger.error("Error in querying: %s", e)

@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from agents.deep_researcher.configuration import Configuration
-
+from agents.hitl.graph import graph
+from agents.hitl.state import HitlStateInput
 router = APIRouter()
 
 class FeedbackData(BaseModel):
@@ -22,3 +23,25 @@ def post_feedback(data: FeedbackData):
     # })
 
     return {"status": "feedback saved"}
+
+
+@router.post("/startConvo")
+def start_convo():
+    thread_id = "demo-thread-1"
+
+    # Initial call
+    state_input = HitlStateInput(
+        user_provided_info=""
+    )
+
+    config = {
+        "configurable": {
+            "thread_id": thread_id
+        }
+    }
+
+    # Invoke the graph
+    result = graph.invoke(state_input, config=config)
+    print(result)
+
+    return {"status": "conversation started"}

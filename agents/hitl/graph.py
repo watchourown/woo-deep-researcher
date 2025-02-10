@@ -6,7 +6,8 @@ from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.memory import MemorySaver
 from agents.hitl.state import HitlState, HitlStateInput, HitlStateOutput
-
+from langgraph.checkpoint.mongodb import MongoDBSaver
+from database.mongo import mongo_db, mongo_client
 
 def ask_for_more_info(state: HitlState, config: RunnableConfig):
     """
@@ -54,6 +55,11 @@ builder.add_edge(START, "ask_for_more_info")
 builder.add_conditional_edges("ask_for_more_info", route_logic)
 builder.add_edge("finalize_conversation", END)
 # Set up memory
-memory = MemorySaver()
 
-graph = builder.compile(checkpointer=memory)
+checkpointer = MongoDBSaver(
+    client=mongo_client,
+    db_name="woo_threads",
+    checkpoint_collection_name="hitl_checkpoints",
+    writes_collection_name="checkpoint_writes"
+)
+graph = builder.compile(checkpointer=checkpointer)
