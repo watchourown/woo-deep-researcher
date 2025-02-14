@@ -11,7 +11,7 @@ on:
       - dev
 
 jobs:
-  deploy:
+  jobs:
     runs-on: lang-dev-1
 
     steps:
