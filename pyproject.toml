@@ -3,7 +3,7 @@ name = "woo-deep-researcher"
 version = "0.0.1"
 description = "Lightweight web research and summarization assistant."
 authors = [
-    { name = "Lance Martin" }
+    { name = "Peter Borodich" }
 ]
 readme = "README.md"
 license = { text = "MIT" }
@@ -16,6 +16,7 @@ dependencies = [
     "fastapi>=0.115.7",
     "uvicorn>=0.23.0",
     "pydantic>=2.7.4,<3.0.0",
+    "langchain-openai>=0.3.5",
     "pymilvus>=2.5.4",
     "pymongo>=4.9.0,<4.10.0",
     "pytest>=8.3.4",

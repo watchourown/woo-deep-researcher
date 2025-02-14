@@ -1,12 +1,12 @@
 {
-    "dockerfile_lines": [],
-    "graphs": {
-      "ollama_deep_researcher": "./agents/deep_researcher/graph.py:graph",
-      "hitl": "./agents/hitl/graph.py:graph"
-    },
-    "python_version": "3.11",
-    "env": "./.env",
-    "dependencies": [
-      "."
-    ]
-  }
+  "dockerfile_lines": [],
+  "graphs": {
+    "ollama_deep_researcher": "./agents/deep_researcher/graph.py:graph",
+    "hitl": "./agents/hitl/graph.py:graph"
+  },
+  "python_version": "3.11",
+  "env": "./.env",
+  "dependencies": [
+    "."
+  ]
+}

@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     API_TITLE: str = "MyApp"
     API_VERSION: str = "0.1.0"
 
+    # OpenAI API Key
+    OPENAI_API_KEY: str
     # MongoDB Connection
     MONGO_URI: str
     MONGO_DB_NAME: str
