@@ -1,12 +1,14 @@
+from typing import cast
 from typing_extensions import Literal
 from langgraph.types import interrupt, Command
+from langchain_core.prompts import ChatPromptTemplate
 from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.mongodb import MongoDBSaver
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
 from agents.hitl.configuration import Configuration
-from agents.hitl.state import HitlState, HitlStateInput, HitlStateOutput, AssessmentData
+from agents.hitl.state import HitlState, HitlStateInput, HitlStateOutput, AssessmentData, TaskRequestBody
 from app.core.config import get_settings
 from database.mongo import mongo_db, mongo_client
 
@@ -127,7 +129,22 @@ def human_review(
 
 def generate_tasks(state: HitlState, config: RunnableConfig):
     print("Pushing tasks to system with final plan info.")
+    configuration = Configuration.from_runnable_config(config)
     # e.g. call external API
+
+    prompt_template = ChatPromptTemplate([
+        ("system", "You are a helpful assistant"),
+        ("user", "Tell me a joke about {topic}")
+    ])
+    
+    messages = [
+        {"role": "system", "content": configuration.router_system_prompt}
+    ] + state.messages
+    response = cast(
+        TaskRequestBody,
+        chat_llm.with_structured_output(TaskRequestBody).ainvoke(messages)
+    )
+    interrupt(response.content)
     return {"task_result": "Tasks created successfully."}
 
 def push_tasks(state: HitlState, config: RunnableConfig):
