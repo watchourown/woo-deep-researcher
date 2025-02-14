@@ -6,13 +6,13 @@ on:
       - main
       - dev
   pull_request:
-    branches:
+    branches: 
       - main
       - dev
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  deploy:
+    runs-on: lang-dev-1
 
     steps:
       # 1. Check out the repository
