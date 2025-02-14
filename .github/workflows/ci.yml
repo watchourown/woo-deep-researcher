@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: lang-dev-1
+    runs-on: ubuntu-latest
 
     steps:
       # 1. Check out the repository
